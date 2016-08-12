@@ -66,8 +66,8 @@ Released under the [`MIT`][license-url] license.
 [license-url]: https://github.com/throll/current-week-identifier/blob/master/license.md
 [license-img]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 
-[travis-url]: https://travis-ci.org/datetime/current-week-number
-[travis-img]: https://img.shields.io/travis/datetime/current-week-number.svg?style=flat
+[travis-url]: https://travis-ci.org/throll/current-week-identifier
+[travis-img]: https://img.shields.io/travis/throll/current-week-identifier.svg?style=flat
 
 [daviddm-url]: https://david-dm.org/throll/current-week-identifier
 [daviddm-img]: https://img.shields.io/david/dev/throll/current-week-identifier.svg?style=flat
