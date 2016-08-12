@@ -1,0 +1,58 @@
+{
+  "name": "current-week-identifier",
+  "version": "1.0.0",
+  "description": "Get unique and sequential current week identifier or given valid `Date` string format or Date object.",
+  "scripts": {
+    "lint": "jshint index.js && jscs index.js --reporter inline",
+    "test": "mocha",
+    "test-cov": "istanbul cover _mocha",
+    "test-travis": "istanbul cover _mocha --report lcovonly"
+  },
+  "author": {
+    "name": "Clément Billiot",
+    "email": "cle.billiot@gmail.com",
+    "url": "https://github.com/throll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/throll/current-week-identifier.git"
+  },
+  "keywords": [
+    "calendar",
+    "count",
+    "counts",
+    "current",
+    "date",
+    "dates",
+    "datetime",
+    "format",
+    "get",
+    "js",
+    "month",
+    "months",
+    "real",
+    "times",
+    "util",
+    "utilities",
+    "utility",
+    "utils",
+    "week",
+    "weekday",
+    "weeks",
+    "year",
+    "years",
+    "sequential"
+  ],
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/throll/current-week-identifier/blob/master/license.md"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "istanbul-harmony": "~0.3.1",
+    "mocha": "~2.1.0"
+  },
+  "bin": {
+    "current-week-identifier": "cli.js"
+  }
+}
