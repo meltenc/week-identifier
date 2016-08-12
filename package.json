@@ -49,8 +49,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "istanbul-harmony": "~0.3.1",
-    "mocha": "~2.1.0"
+    "istanbul-harmony": "~0.3.16",
+    "mocha": "~3.0.2"
   },
   "bin": {
     "current-week-identifier": "cli.js"
