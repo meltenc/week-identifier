@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * current-week-identifier <https://github.com/throll/current-week-identifier>
+ * week-identifier <https://github.com/throll/week-identifier>
  *
  * Copyright (c) 2016-2017 Clément Billiot, contributors.
  * Released under the MIT license.
@@ -10,7 +10,7 @@
 'use strict';
 
 var pkg = require('./package.json');
-var currentWeekIdentifier = require('./');
+var weekIdentifier = require('./');
 var argv = process.argv.slice(2);
 
 function help() {
@@ -19,13 +19,13 @@ function help() {
     '  ' + pkg.description,
     '',
     '  Example',
-    '    $ current-week-identifier January 5, 1970',
+    '    $ week-identifier January 5, 1970',
     '    1',
-    '    $ current-week-identifier August 12, 2016',
+    '    $ week-identifier August 12, 2016',
     '    2432',
-    '    $ current-week-identifier 02/17/2012',
+    '    $ week-identifier 02/17/2012',
     '    2198',
-    '    $ current-week-identifier',
+    '    $ week-identifier',
     '    2433'
   ].join('\n'));
 }
@@ -39,4 +39,4 @@ if (argv.indexOf('--version') !== -1) {
   return;
 }
 
-console.log(currentWeekIdentifier(argv.join('')));
+console.log(weekIdentifier(argv.join('')));

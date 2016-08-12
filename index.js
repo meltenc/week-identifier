@@ -1,49 +1,53 @@
 /**
- * current-week-identifier <https://github.com/throll/current-week-identifier>
+ * week-identifier <https://github.com/throll/week-identifier>
  *
- * Copyright (c) 2016-2017 Clément Billiot, contributors.
+ * Copyright (c) 2016 Clément Billiot, contributors.
  * Released under the MIT license.
  */
 
 'use strict';
 
+module.exports = weekIdentifier;
+module.exports.weekIdentifier = weekIdentifier;
+//module.exports.rec709 = rec709;
+
 /**
- * Get unique and sequential current week identifier or given valid `Date` string format
+ * Get unique and sequential week identifier of current date or given valid `Date` string format
  *
  * **Example:**
  *
  * ```js
- * var currentWeekIdentifier = require('current-week-number');
+ * var weekIdentifier = require('current-week-number');
  *
- * // august 12, 2016
- * currentWeekIdentifier();
+ * // august 12, 2016 (current date)
+ * weekIdentifier();
  * //=> 2432
  *
- * currentWeekIdentifier('January 05, 1970 03:00:00');
+ * weekIdentifier('January 05, 1970 03:00:00');
  * //=> 1
  *
- * currentWeekIdentifier(new Date('August 12, 2016'));
+ * weekIdentifier(new Date('August 12, 2016'));
  * //=> 2432
  *
- * currentWeekIdentifier('08/12/2016');
+ * weekIdentifier('08/12/2016');
  * //=> 2432
  *
- * currentWeekIdentifier('August 12, 2016');
+ * weekIdentifier('August 12, 2016');
  * //=> 2432
  *
- * currentWeekIdentifier(new Date('August 19, 2016'));
+ * weekIdentifier(new Date('August 19, 2016'));
  * //=> 2433
  *
- * currentWeekIdentifier('08/19/2016');
+ * weekIdentifier('08/19/2016');
  * //=>  2433
  * ```
  *
- * @name currentWeekIdentifier
+ * @name weekIdentifier
  * @param  {String} `[date]` every valid Date-ish string format
  * @return {Number}
  * @api public
  */
-module.exports = function currentWeekIdentifier(date) {
+function weekIdentifier(date) {
   var instance;
 
   if (typeof date === 'string' && date.length) {
@@ -62,4 +66,7 @@ module.exports = function currentWeekIdentifier(date) {
   var weekNumberdiff = Math.ceil((target.getTime() - firstDayOfWeekOne.getTime()) / (24 * 3600 * 1000 * 7));
 
   return weekNumberdiff;
-};
+}
+
+//TODO
+//function dateFromWeek(weekIdentifier) {}
