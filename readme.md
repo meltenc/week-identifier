@@ -1,6 +1,6 @@
 ## [![npm][npmjs-img]][npmjs-url] [![mit license][license-img]][license-url] [![build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![deps status][daviddm-img]][daviddm-url]
 
-> Get unique and sequential current week identifier or given valid `Date` string format or Date object.
+> Get unique and sequential current week identifier for given valid `Date` string format or Date object.
 Week #1 is starting on January 05, 1970.
 
 ## Install
@@ -15,7 +15,7 @@ week-identifier --help
 > For more use-cases see the [tests](./test.js)
 
 ### [weekIdentifier](./index.js#L50)
-> Get unique and sequential current week identifier or given valid `Date` string format
+> Get unique and sequential current week identifier for given valid `Date` string format
 
 - `[date]` **{String}** every valid Date-ish string format
 - `return` **{Number}**
