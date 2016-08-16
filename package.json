@@ -47,10 +47,11 @@
     "type": "MIT",
     "url": "https://github.com/throll/week-identifier/blob/master/license.md"
   },
-  "dependencies": {},
   "devDependencies": {
     "istanbul-harmony": "~0.3.16",
-    "mocha": "~3.0.2"
+    "mocha": "~3.0.2",
+    "chai": "^3.5.0",
+    "chai-datetime": "^1.4.1"
   },
   "bin": {
     "week-identifier": "cli.js"

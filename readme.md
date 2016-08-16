@@ -14,7 +14,7 @@ week-identifier --help
 ## API
 > For more use-cases see the [tests](./test.js)
 
-### [weekIdentifier](./index.js#L40)
+### [weekIdentifier](./index.js#L50)
 > Get unique and sequential current week identifier or given valid `Date` string format
 
 - `[date]` **{String}** every valid Date-ish string format
@@ -46,8 +46,27 @@ weekIdentifier('August 12, 2016');
 
 weekIdentifier(new Date('August 19, 2016'));
 //=> 2433
+
 ```
 
+### [weekIdentifier.dateFromWeek](./index.js#L86)
+> Get monday date of the given week identifier or January 5, 1970 00:00:00 if weekIdentifier is <= 1.
+
+- `[number]` **{String}** every valid number > 0
+- `return` **{Date}**
+
+**Example:**
+
+```js
+var weekIdentifier = require('week-identifier');
+
+weekIdentifier.dateFromWeek(2433);
+//=> August 15, 2016 00:00:00
+
+weekIdentifier.dateFromWeek(1);
+//=> January 05, 1970 00:00:00
+
+```
 
 ## CLI
 > You can just run `week-identifier --help` for more information

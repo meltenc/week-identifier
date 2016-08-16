@@ -9,7 +9,7 @@
 
 module.exports = weekIdentifier;
 module.exports.weekIdentifier = weekIdentifier;
-//module.exports.rec709 = rec709;
+module.exports.dateFromWeek = dateFromWeek;
 
 /**
  * Get unique and sequential week identifier of current date or given valid `Date` string format
@@ -57,16 +57,42 @@ function weekIdentifier(date) {
   } else {
     instance = new Date();
   }
-
   // Create a copy of this date object
   var target = new Date(instance.valueOf());
   // Starting date point for our sequence
-  var firstDayOfWeekOne = new Date('January 4, 1970 23:59:59.999');
+  var lastDayOfWeekZero = new Date('January 4, 1970 23:59:59.999');
   // Number of week from our starting date
-  var weekNumberdiff = Math.ceil((target.getTime() - firstDayOfWeekOne.getTime()) / (24 * 3600 * 1000 * 7));
+  var weekNumberdiff = Math.ceil((target.getTime() - lastDayOfWeekZero.getTime()) / (24 * 3600 * 1000 * 7));
 
   return weekNumberdiff;
 }
 
-//TODO
-//function dateFromWeek(weekIdentifier) {}
+/**
+ * Get monday date of the given week identifier
+ *
+ *  * **Example:**
+ *
+ * ```js
+ * var weekIdentifier = require('current-week-number');
+ *
+ * weekIdentifier.dateFromWeek(2403);
+ * //=> January 18, 2016 00:00:00
+ *
+ * ```
+ * @name weekIdentifier.dateFromWeek
+ * @param  {Number} weekIdentifier
+ * @return {Date} Monday of the given week identifier or January 5, 1970 00:00:00 if weekIdentifier is not > 0.
+ */
+function dateFromWeek(weekIdentifier) {
+  if (isNaN(parseFloat(weekIdentifier))) {
+    return NaN;
+  } else {
+    // Starting date point for our sequence
+    var firstDayOfWeekOne, mondayOfWeek;
+    mondayOfWeek = firstDayOfWeekOne = new Date('January 5, 1970 00:00:00');
+    if (weekIdentifier > 0) {
+      mondayOfWeek = new Date(((weekIdentifier - 1) * (24 * 3600 * 1000 * 7)) + firstDayOfWeekOne.getTime());
+    }
+    return mondayOfWeek;
+  }
+}
