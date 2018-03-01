@@ -60,9 +60,9 @@ function weekIdentifier(date) {
   // Create a copy of this date object
   var target = new Date(instance.valueOf());
   // Starting date point for our sequence
-  var lastDayOfWeekZero = new Date('January 4, 1970 23:59:59.999');
+  var lastDayOfWeekZeroTimestamp = new Date('January 5, 1970 00:00:00').getTime() - 1;
   // Number of week from our starting date
-  var weekNumberdiff = Math.ceil((target.getTime() - lastDayOfWeekZero.getTime()) / (24 * 3600 * 1000 * 7));
+  var weekNumberdiff = Math.ceil((target.getTime() - lastDayOfWeekZeroTimestamp) / (24 * 3600 * 1000 * 7));
 
   return weekNumberdiff;
 }
