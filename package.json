@@ -4,7 +4,7 @@
   "description": "Get unique and sequential current week identifier for given valid `Date` string format or Date object.",
   "scripts": {
     "lint": "jshint index.js && jscs index.js --reporter inline",
-    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha test.js",
+    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "publish-please": "publish-please",
     "prepublish": "publish-please guard"
