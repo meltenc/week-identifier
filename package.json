@@ -50,10 +50,10 @@
     "url": "https://github.com/throll/week-identifier/blob/master/license.md"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "chai-datetime": "^1.4.1",
     "istanbul-harmony": "~0.3.16",
-    "mocha": "~3.0.2",
+    "mocha": "~5.0.4",
     "publish-please": "^2.2.0"
   },
   "bin": {
