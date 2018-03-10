@@ -1,6 +1,6 @@
 {
   "name": "week-identifier",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Get unique and sequential current week identifier for given valid `Date` string format or Date object.",
   "scripts": {
     "lint": "jshint index.js && jscs index.js --reporter inline",
