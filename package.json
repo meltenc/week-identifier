@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "jshint index.js && jscs index.js --reporter inline",
     "test": "mocha",
-    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
-    "test-travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly",
+    "test-cov": "istanbul cover _mocha",
+    "test-travis": "istanbul cover _mocha --report lcovonly",
     "publish-please": "publish-please",
     "prepublish": "publish-please guard"
   },
@@ -52,7 +52,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-datetime": "^1.4.1",
-    "istanbul-harmony": "~0.3.16",
+    "istanbul": "~0.4.5",
     "mocha": "~5.0.4",
     "publish-please": "^2.2.0"
   },
