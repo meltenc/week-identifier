@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "jshint index.js && jscs index.js --reporter inline",
     "test": "mocha",
-    "test-cov": "istanbul cover _mocha",
-    "test-travis": "istanbul cover _mocha --report lcovonly",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "test-travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly",
     "publish-please": "publish-please",
     "prepublish": "publish-please guard"
   },
