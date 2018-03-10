@@ -6,7 +6,7 @@
     "lint": "jshint index.js && jscs index.js --reporter inline",
     "test": "mocha",
     "test-cov": "istanbul cover _mocha",
-    "test-travis": "istanbul cover _mocha --report lcovonly",
+    "test-travis": "istanbul cover _mocha -- -R spec",
     "publish-please": "publish-please",
     "prepublish": "publish-please guard"
   },
