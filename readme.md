@@ -1,38 +1,46 @@
 ## [![npm][npmjs-img]][npmjs-url] [![mit license][license-img]][license-url] [![build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![deps status][daviddm-img]][daviddm-url]
 
-> Get unique and sequential current week identifier for given valid `Date` string format or Date object.
-Week #1 is starting on January 05, 1970.
+> Get unique and sequential week identifier for any date. Modern ES6+ with robust error handling.
+
+Week #1 starts on January 5, 1970 (Monday). Each week runs Monday to Sunday.
 
 ## Install
-```
-npm i --save week-identifier
+```bash
+npm install week-identifier
+
+# Test the installation
 npm test
+
+# Try the CLI
 week-identifier --help
 ```
 
 
 ## API
-> For more use-cases see the [tests](./test.js)
+> For comprehensive test examples see [test.js](./test.js) and [test-cli.js](./test-cli.js)
 
-### [weekIdentifier](./index.js#L50)
-> Get unique and sequential current week identifier for given valid `Date` string format
+### weekIdentifier(date?)
+> Get sequential week identifier for any date
 
-- `[date]` **{String}** every valid Date-ish string format
-- `return` **{Number}**
+- **date** `{string|Date}` - Date string (any valid format) or Date object (optional, defaults to current date)
+- **returns** `{number}` - Sequential week identifier (1-based)
+- **throws** `{Error}` - When provided date is invalid
 
-**Example:**
+**Examples:**
 
 ```js
-var weekIdentifier = require('week-identifier');
+const weekIdentifier = require('week-identifier');
 
- // august 12, 2016
+// Current week (depends on today's date)
 weekIdentifier();
-//=> 2432
+//=> 2433
 
-weekIdentifier('January 05, 1970 00:00:00');
+// Week 1 (epoch start)
+weekIdentifier('January 5, 1970');
 //=> 1
 
-weekIdentifier('January 12, 1970 00:00:00');
+// Various date formats supported
+weekIdentifier('January 12, 1970');
 //=> 2
 
 weekIdentifier(new Date('August 12, 2016'));
@@ -44,32 +52,104 @@ weekIdentifier('08/12/2016');
 weekIdentifier('August 12, 2016');
 //=> 2432
 
-weekIdentifier(new Date('August 19, 2016'));
-//=> 2433
-
+// Error handling for invalid dates
+try {
+  weekIdentifier('invalid date');
+} catch (error) {
+  console.error(error.message);
+  //=> 'Invalid date string: "invalid date"'
+}
 ```
 
-### [weekIdentifier.dateFromWeek](./index.js#L86)
-> Get monday date of the given week identifier or January 5, 1970 00:00:00 if weekIdentifier is <= 1.
+### weekIdentifier.dateFromWeek(weekId)
+> Convert week identifier back to its Monday date
 
-- `[number]` **{String}** every valid number > 0
-- `return` **{Date}**
+- **weekId** `{number|string}` - Week identifier to convert
+- **returns** `{Date}` - Monday date of the specified week
+- **throws** `{Error}` - When weekId is not a valid number
 
-**Example:**
+**Examples:**
 
 ```js
-var weekIdentifier = require('week-identifier');
+const weekIdentifier = require('week-identifier');
 
+// Get Monday of week 2433
 weekIdentifier.dateFromWeek(2433);
-//=> August 15, 2016 00:00:00
+//=> Date object for August 15, 2016 00:00:00
 
+// Week 1 returns epoch start
 weekIdentifier.dateFromWeek(1);
-//=> January 05, 1970 00:00:00
+//=> Date object for January 5, 1970 00:00:00
 
+// Week 0 or negative returns epoch start
+weekIdentifier.dateFromWeek(0);
+//=> Date object for January 5, 1970 00:00:00
+
+// Error handling
+try {
+  weekIdentifier.dateFromWeek('abc');
+} catch (error) {
+  console.error(error.message);
+  //=> 'Invalid week identifier: "abc"'
+}
 ```
 
-## CLI
-> You can just run `week-identifier --help` for more information
+## CLI Usage
+
+The package includes a powerful command-line interface with enhanced argument parsing.
+
+### Installation & Usage
+
+```bash
+# Install globally for CLI access
+npm install -g week-identifier
+
+# Or use without installing
+npx week-identifier
+```
+
+### Commands & Options
+
+```bash
+# Get current week identifier
+week-identifier
+#=> 2433
+
+# Get week identifier for specific dates  
+week-identifier "January 5, 1970"
+#=> 1
+
+week-identifier "August 12, 2016"  
+#=> 2432
+
+week-identifier "02/17/2012"
+#=> 2198
+
+# Convert week identifier back to date
+week-identifier --from 2432
+#=> 2016-08-08
+
+week-identifier --from 1
+#=> 1970-01-05
+
+# Get help and version info
+week-identifier --help
+week-identifier --version
+```
+
+### Error Handling
+
+```bash
+# Invalid date strings show helpful errors
+week-identifier "invalid date"
+#=> Error: Invalid date string: "invalid date"
+#=> Use --help for usage information.
+
+# Invalid week identifiers are caught
+week-identifier --from abc  
+#=> Error: Invalid week identifier: "abc"
+#=> Use --help for usage information.
+```
 
 
 ## License [![MIT license][license-img]][license-url]
