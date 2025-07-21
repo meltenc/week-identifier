@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2025-01-21
+
+### 📦 Package Optimization
+- **npm Package**: Add .npmignore to optimize package size (-54% reduction)
+- **Package Size**: Reduced from 28.8 kB (15 files) to 13.1 kB (5 files)
+- **Distribution**: Include only essential runtime files (index.js, cli.js, package.json, README.md, LICENSE)
+- **Exclusions**: Remove development files, tests, CI/CD config, and documentation from npm package
+
+### 📚 Documentation  
+- **CLAUDE.md**: Complete rewrite with modern 2025 development stack documentation
+- **Development Guide**: Add comprehensive testing architecture and security profile
+- **Project Structure**: Document modernization history and development guidelines
+- **Standards**: Updated all commands and workflows to reflect current state
+
+### 🎯 User Experience
+- **Install Size**: Faster npm install with smaller package footprint
+- **Clean Distribution**: Only production-ready files in npm package
+- **Better Documentation**: Enhanced developer experience for contributors
+
 ## [2.0.2] - 2025-01-21
 
 ### 🧹 Cleanup & Maintenance
