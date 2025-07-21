@@ -70,11 +70,13 @@ function weekIdentifier(date) {
   } else {
     instance = new Date();
   }
-  
+
   // Create a copy of this date object
   const target = new Date(instance.valueOf());
   // Number of weeks from our starting date
-  const weekNumberDiff = Math.ceil((target.getTime() - EPOCH_START_TIMESTAMP) / MILLISECONDS_PER_WEEK);
+  const weekNumberDiff = Math.ceil(
+    (target.getTime() - EPOCH_START_TIMESTAMP) / MILLISECONDS_PER_WEEK
+  );
 
   return weekNumberDiff;
 }
@@ -97,18 +99,18 @@ function weekIdentifier(date) {
  */
 function dateFromWeek(weekIdentifier) {
   const weekNum = parseFloat(weekIdentifier);
-  
+
   if (isNaN(weekNum)) {
     throw new Error(`Invalid week identifier: "${weekIdentifier}"`);
   }
-  
+
   // Starting date point for our sequence
   let mondayOfWeek = new Date(EPOCH_START.getTime());
-  
+
   if (weekNum > 0) {
     const additionalMilliseconds = (weekNum - 1) * MILLISECONDS_PER_WEEK;
     mondayOfWeek = new Date(EPOCH_START.getTime() + additionalMilliseconds);
   }
-  
+
   return mondayOfWeek;
 }
