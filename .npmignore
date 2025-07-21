@@ -1,0 +1,38 @@
+# Development and testing files
+test.js
+test-cli.js
+.nyc_output/
+coverage/
+
+# Development tools configuration
+eslint.config.js
+.prettierrc.json
+.prettierignore
+
+# Git and CI/CD files
+.git/
+.github/
+.gitattributes
+codecov.yml
+
+# Documentation and project files
+CLAUDE.md
+CHANGELOG.md
+
+# IDE and system files
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+node_modules/
+
+# Package build artifacts
+*.tgz
