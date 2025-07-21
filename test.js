@@ -51,8 +51,8 @@ describe('week-identifier:', function() {
   });
 
   it('should get date from week identifier', function(done) {
-    assert.isNaN(weekIdentifier.dateFromWeek(''));
-    assert.isNaN(weekIdentifier.dateFromWeek('abc'));
+    assert.throws(() => weekIdentifier.dateFromWeek(''), Error, 'Invalid week identifier');
+    assert.throws(() => weekIdentifier.dateFromWeek('abc'), Error, 'Invalid week identifier');
     assert.equalDate(weekIdentifier.dateFromWeek(-2897), new Date('January 05, 1970 00:00:00'));
     assert.equalDate(weekIdentifier.dateFromWeek('0'), new Date('January 05, 1970 00:00:00'));
     assert.equalDate(weekIdentifier.dateFromWeek('1'), new Date('January 05, 1970 00:00:00'));

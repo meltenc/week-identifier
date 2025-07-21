@@ -7,6 +7,11 @@
 
 'use strict';
 
+// Constants for better performance
+const EPOCH_START = new Date('January 5, 1970 00:00:00');
+const EPOCH_START_TIMESTAMP = EPOCH_START.getTime() - 1;
+const MILLISECONDS_PER_WEEK = 24 * 3600 * 1000 * 7;
+
 module.exports = weekIdentifier;
 module.exports.weekIdentifier = weekIdentifier;
 module.exports.dateFromWeek = dateFromWeek;
@@ -48,23 +53,30 @@ module.exports.dateFromWeek = dateFromWeek;
  * @api public
  */
 function weekIdentifier(date) {
-  var instance;
+  let instance;
 
   if (typeof date === 'string' && date.length) {
     instance = new Date(date);
+    // Check if the date is valid
+    if (isNaN(instance.getTime())) {
+      throw new Error(`Invalid date string: "${date}"`);
+    }
   } else if (date instanceof Date) {
+    // Check if the Date object is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid Date object provided');
+    }
     instance = date;
   } else {
     instance = new Date();
   }
+  
   // Create a copy of this date object
-  var target = new Date(instance.valueOf());
-  // Starting date point for our sequence
-  var lastDayOfWeekZeroTimestamp = new Date('January 5, 1970 00:00:00').getTime() - 1;
-  // Number of week from our starting date
-  var weekNumberdiff = Math.ceil((target.getTime() - lastDayOfWeekZeroTimestamp) / (24 * 3600 * 1000 * 7));
+  const target = new Date(instance.valueOf());
+  // Number of weeks from our starting date
+  const weekNumberDiff = Math.ceil((target.getTime() - EPOCH_START_TIMESTAMP) / MILLISECONDS_PER_WEEK);
 
-  return weekNumberdiff;
+  return weekNumberDiff;
 }
 
 /**
@@ -84,15 +96,19 @@ function weekIdentifier(date) {
  * @return {Date} Monday of the given week identifier or January 5, 1970 00:00:00 if weekIdentifier is not > 0.
  */
 function dateFromWeek(weekIdentifier) {
-  if (isNaN(parseFloat(weekIdentifier))) {
-    return NaN;
-  } else {
-    // Starting date point for our sequence
-    var firstDayOfWeekOne, mondayOfWeek;
-    mondayOfWeek = firstDayOfWeekOne = new Date('January 5, 1970 00:00:00');
-    if (weekIdentifier > 0) {
-      mondayOfWeek = new Date(((weekIdentifier - 1) * (24 * 3600 * 1000 * 7)) + firstDayOfWeekOne.getTime());
-    }
-    return mondayOfWeek;
+  const weekNum = parseFloat(weekIdentifier);
+  
+  if (isNaN(weekNum)) {
+    throw new Error(`Invalid week identifier: "${weekIdentifier}"`);
   }
+  
+  // Starting date point for our sequence
+  let mondayOfWeek = new Date(EPOCH_START.getTime());
+  
+  if (weekNum > 0) {
+    const additionalMilliseconds = (weekNum - 1) * MILLISECONDS_PER_WEEK;
+    mondayOfWeek = new Date(EPOCH_START.getTime() + additionalMilliseconds);
+  }
+  
+  return mondayOfWeek;
 }
