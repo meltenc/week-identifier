@@ -66,5 +66,5 @@ jobs:
         node cli.js --from 1 | grep "1970-01-05"
         
         # Test error handling
-        ! node cli.js "invalid date" 2>&1 | grep -q "Error"
-        ! node cli.js --from abc 2>&1 | grep -q "Error"
+        node cli.js "invalid date" 2>&1 | grep -q "Error"
+        node cli.js --from abc 2>&1 | grep -q "Error"
