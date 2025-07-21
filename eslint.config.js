@@ -32,7 +32,7 @@ module.exports = [
   },
   {
     // Test files configuration
-    files: ['test.js', '**/*.test.js'],
+    files: ['test.js', 'test-cli.js', '**/*.test.js'],
     languageOptions: {
       globals: {
         ...globals.mocha,

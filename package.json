@@ -7,7 +7,7 @@
     "lint:fix": "eslint *.js --fix",
     "format": "prettier --write *.js",
     "format:check": "prettier --check *.js",
-    "test": "nyc mocha",
+    "test": "nyc mocha test.js test-cli.js",
     "test:coverage": "nyc --reporter=html --reporter=text mocha",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "publish-please": "publish-please",

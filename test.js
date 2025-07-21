@@ -13,7 +13,7 @@ chai.use(require('chai-datetime'));
 const weekIdentifier = require('./index');
 
 describe('week-identifier:', () => {
-  it('should receive valid date format string', (done) => {
+  it('should receive valid date format string', () => {
     assert.strictEqual(weekIdentifier('January 05, 1970 03:24:00'), 1);
     assert.strictEqual(weekIdentifier('January 11, 1970 23:59:59'), 1);
     assert.strictEqual(weekIdentifier('January 12, 1970 00:00:00'), 2);
@@ -25,19 +25,16 @@ describe('week-identifier:', () => {
     assert.strictEqual(weekIdentifier('January 26, 2016 00:00:00'), 2404);
     assert.strictEqual(weekIdentifier('August 12, 2016'), 2432);
     assert.strictEqual(weekIdentifier('02/17/2012'), 2198);
-
-    done();
   });
-  it('should receive date object', (done) => {
+  it('should receive date object', () => {
     assert.strictEqual(
       weekIdentifier(new Date('January 05, 1970 03:24:00')),
       1
     );
     assert.strictEqual(weekIdentifier(new Date('August 19, 2016')), 2433);
-    done();
   });
 
-  it('should throw error for invalid date string', (done) => {
+  it('should throw error for invalid date string', () => {
     assert.throws(
       () => weekIdentifier('invalid date string'),
       Error,
@@ -48,23 +45,20 @@ describe('week-identifier:', () => {
       Error,
       'Invalid date string'
     );
-    done();
   });
 
-  it('should throw error for invalid Date object', (done) => {
+  it('should throw error for invalid Date object', () => {
     const invalidDate = new Date('invalid');
     assert.throws(
       () => weekIdentifier(invalidDate),
       Error,
       'Invalid Date object provided'
     );
-    done();
   });
-  it('should get current week identifier when empty string format', (done) => {
+  it('should get current week identifier when empty string format', () => {
     assert.strictEqual(typeof weekIdentifier(''), 'number');
-    done();
   });
-  it('should get current week identifier, if no valid Date format or Date Object', (done) => {
+  it('should get current week identifier, if no valid Date format or Date Object', () => {
     assert.strictEqual(typeof weekIdentifier(/regex/g), 'number');
     assert.strictEqual(typeof weekIdentifier(true), 'number');
     assert.strictEqual(typeof weekIdentifier(false), 'number');
@@ -77,10 +71,9 @@ describe('week-identifier:', () => {
     );
     assert.strictEqual(typeof weekIdentifier([1, 2, 3]), 'number');
     assert.strictEqual(typeof weekIdentifier(), 'number');
-    done();
   });
 
-  it('should get date from week identifier', (done) => {
+  it('should get date from week identifier', () => {
     assert.throws(
       () => weekIdentifier.dateFromWeek(''),
       Error,
@@ -115,6 +108,5 @@ describe('week-identifier:', () => {
       weekIdentifier.dateFromWeek('2404'),
       new Date('January 25, 2016 00:00:00')
     );
-    done();
   });
 });
