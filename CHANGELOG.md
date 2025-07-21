@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-01-21
+
+### 🐛 Fixed
+- **GitHub Actions**: Fix Codecov integration with proper lcov.info file generation
+- **CI/CD**: Fix CLI functionality tests in GitHub Actions workflow
+- **Repository**: Remove obsolete configuration files (JSHint/JSCS, Travis CI, Coveralls)
+- **Testing**: Update coverage script to include all test files and generate lcov report
+
+### 🧹 Cleanup
+- Remove legacy `.jscsrc`, `.jshintignore`, `.jshintrc` configuration files
+- Remove obsolete `.travis.yml` and `.coveralls.yml` CI configuration  
+- Clean up generated coverage directories from version control
+
 ## [2.0.0] - 2025-01-21
 
 ### 💥 Breaking Changes
