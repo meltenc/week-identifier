@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2025-01-21
+
+### 🧹 Cleanup & Maintenance
+- **Dependencies**: Remove obsolete packages (coveralls, istanbul, publish-please)
+- **Scripts**: Simplify npm scripts, remove redundant commands
+- **Configuration**: Remove .editorconfig (redundant with Prettier)
+- **Configuration**: Simplify .gitattributes to relevant file types only
+- **Security**: Update Mocha to v11.7.1, fix all npm audit vulnerabilities
+- **Legal**: Update LICENSE copyright to 2016-2025
+
+### 🔧 Improvements
+- **Package Size**: Reduced package size by removing unnecessary dependencies
+- **Security**: Comprehensive security audit with excellent rating (5/5 stars)
+- **Maintenance**: Streamlined development workflow and configuration files
+- **Standards**: Updated to latest Node.js and npm security standards
+
 ## [2.0.1] - 2025-01-21
 
 ### 🐛 Fixed
