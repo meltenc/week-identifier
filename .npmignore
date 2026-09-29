@@ -16,7 +16,7 @@ eslint.config.js
 codecov.yml
 
 # Documentation and project files
-CLAUDE.md
+AGENTS.md
 CHANGELOG.md
 
 # IDE and system files
