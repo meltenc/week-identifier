@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `npm audit` gate on runtime dependencies, drop redundant `test-cli` job
 - Add Dependabot (npm + GitHub Actions) and a tag-triggered npm release workflow with trusted publishing
 
+### 📚 Documentation
+- README rewrite: title, Node.js requirement, local-time/DST behavior, note on UTC parsing of date-only ISO strings, ESM import, development section; removed misleading `npm test` install step and fixed broken author link
+
 ### 📦 Package
 - **Node.js**: declare `engines: { node: ">=22" }` (versions tested in CI)
 - Replace `.npmignore` with a `files` allow-list (same published contents)

@@ -1,179 +1,115 @@
-## [![npm][npmjs-img]][npmjs-url] [![license][license-img]][license-url] [![build][build-img]][build-url] [![codecov][codecov-img]][codecov-url] [![downloads][downloads-img]][downloads-url]
+# week-identifier
 
-> Get unique and sequential week identifier for any date. Modern ES6+ with robust error handling.
+[![npm][npmjs-img]][npmjs-url] [![license][license-img]][license-url] [![build][build-img]][build-url] [![codecov][codecov-img]][codecov-url] [![downloads][downloads-img]][downloads-url]
 
-Week #1 starts on January 5, 1970 (Monday). Each week runs Monday to Sunday.
+> Unique, sequential week number for any date. Zero dependencies, with a CLI.
+
+Week #1 starts on Monday, January 5, 1970. Weeks run Monday to Sunday and are counted in **local time**, so a week always changes at Monday 00:00 on the user's clock, daylight saving time included.
+
+Handy as a stable key for weekly data: `2949` is easier to store, sort and compare than "year + ISO week".
 
 ## Install
+
 ```bash
 npm install week-identifier
-
-# Test the installation
-npm test
-
-# Try the CLI
-week-identifier --help
 ```
 
+Requires Node.js 22 or later.
 
 ## API
-> For comprehensive test examples see [test.js](./test.js) and [test-cli.js](./test-cli.js)
+
+```js
+const weekIdentifier = require('week-identifier');
+// or: import weekIdentifier, { dateFromWeek } from 'week-identifier';
+```
 
 ### weekIdentifier(date?)
-> Get sequential week identifier for any date
 
-- **date** `{string|Date}` - Date string (any valid format) or Date object (optional, defaults to current date)
-- **returns** `{number}` - Sequential week identifier (1-based)
-- **throws** `{Error}` - When provided date is invalid
+Returns the week identifier for a date.
 
-**Examples:**
+- **date** `{string|Date}` – any date string `new Date()` understands, or a `Date`. Optional; defaults to now.
+- **returns** `{number}` – sequential week identifier (1 = week of January 5, 1970)
+- **throws** `{Error}` – when the string or `Date` is invalid
 
 ```js
-const weekIdentifier = require('week-identifier');
+weekIdentifier();                            //=> current week, e.g. 2964
+weekIdentifier('January 5, 1970');           //=> 1
+weekIdentifier('January 12, 1970');          //=> 2
+weekIdentifier('August 12, 2016');           //=> 2432
+weekIdentifier('08/12/2016');                //=> 2432
+weekIdentifier(new Date('August 12, 2016')); //=> 2432
 
-// Current week (depends on today's date)
-weekIdentifier();
-//=> 2433
-
-// Week 1 (epoch start)
-weekIdentifier('January 5, 1970');
-//=> 1
-
-// Various date formats supported
-weekIdentifier('January 12, 1970');
-//=> 2
-
-weekIdentifier(new Date('August 12, 2016'));
-//=> 2432
-
-weekIdentifier('08/12/2016');
-//=> 2432
-
-weekIdentifier('August 12, 2016');
-//=> 2432
-
-// Error handling for invalid dates
-try {
-  weekIdentifier('invalid date');
-} catch (error) {
-  console.error(error.message);
-  //=> 'Invalid date string: "invalid date"'
-}
+weekIdentifier('invalid date');
+//=> throws Error: Invalid date string: "invalid date"
 ```
+
+> [!NOTE]
+> JavaScript parses date-only ISO strings such as `'2026-07-06'` as **UTC** midnight, not local midnight. West of UTC, that can land on the previous day and therefore the previous week. Use `'2026-07-06T00:00'` or `new Date(2026, 6, 6)` for a local date.
 
 ### weekIdentifier.dateFromWeek(weekId)
-> Convert week identifier back to its Monday date
 
-- **weekId** `{number|string}` - Week identifier to convert
-- **returns** `{Date}` - Monday date of the specified week
-- **throws** `{Error}` - When weekId is not a valid number
+Returns the Monday (00:00 local time) that starts the given week.
 
-**Examples:**
+- **weekId** `{number|string}` – week identifier
+- **returns** `{Date}` – Monday of that week; identifiers ≤ 0 return January 5, 1970
+- **throws** `{Error}` – when `weekId` is not a number
 
 ```js
-const weekIdentifier = require('week-identifier');
+weekIdentifier.dateFromWeek(2433); //=> Mon Aug 15 2016 00:00:00
+weekIdentifier.dateFromWeek(1);    //=> Mon Jan 05 1970 00:00:00
+weekIdentifier.dateFromWeek(0);    //=> Mon Jan 05 1970 00:00:00
 
-// Get Monday of week 2433
-weekIdentifier.dateFromWeek(2433);
-//=> Date object for August 15, 2016 00:00:00
-
-// Week 1 returns epoch start
-weekIdentifier.dateFromWeek(1);
-//=> Date object for January 5, 1970 00:00:00
-
-// Week 0 or negative returns epoch start
-weekIdentifier.dateFromWeek(0);
-//=> Date object for January 5, 1970 00:00:00
-
-// Error handling
-try {
-  weekIdentifier.dateFromWeek('abc');
-} catch (error) {
-  console.error(error.message);
-  //=> 'Invalid week identifier: "abc"'
-}
+weekIdentifier.dateFromWeek('abc');
+//=> throws Error: Invalid week identifier: "abc"
 ```
 
-## CLI Usage
-
-The package includes a powerful command-line interface with enhanced argument parsing.
-
-### Installation & Usage
+## CLI
 
 ```bash
-# Install globally for CLI access
-npm install -g week-identifier
-
-# Or use without installing
-npx week-identifier
+npx week-identifier                    # current week
+npx week-identifier "January 5, 1970"  #=> 1
+npx week-identifier "02/17/2012"       #=> 2198
+npx week-identifier --from 2432        #=> 2016-08-08 (Monday of that week)
+npx week-identifier --help
+npx week-identifier --version
 ```
 
-### Commands & Options
+Invalid input prints an error to stderr and exits with code 1:
 
 ```bash
-# Get current week identifier
-week-identifier
-#=> 2433
-
-# Get week identifier for specific dates  
-week-identifier "January 5, 1970"
-#=> 1
-
-week-identifier "August 12, 2016"  
-#=> 2432
-
-week-identifier "02/17/2012"
-#=> 2198
-
-# Convert week identifier back to date
-week-identifier --from 2432
-#=> 2016-08-08
-
-week-identifier --from 1
-#=> 1970-01-05
-
-# Get help and version info
-week-identifier --help
-week-identifier --version
-```
-
-### Error Handling
-
-```bash
-# Invalid date strings show helpful errors
-week-identifier "invalid date"
-#=> Error: Invalid date string: "invalid date"
-#=> Use --help for usage information.
-
-# Invalid week identifiers are caught
-week-identifier --from abc  
+npx week-identifier --from abc
 #=> Error: Invalid week identifier: "abc"
 #=> Use --help for usage information.
 ```
 
+Install globally with `npm install -g week-identifier` to drop the `npx`.
 
-## License [![MIT license][license-img]][license-url]
-Copyright (c) 2025 [Clément Billiot], [contributors][contrib-graf].  
-Released under the [`MIT`][license-url] license.
+## Development
 
+```bash
+npm ci
+npm test          # mocha + nyc coverage
+npm run lint
+npm run format
+```
 
-[npmjs-url]: http://npm.im/week-identifier
-[npmjs-img]: https://img.shields.io/npm/v/week-identifier.svg?style=flat&label=week-identifier
+More examples in [test.js][test-url] and [test-cli.js][test-cli-url].
 
+## License
+
+Copyright (c) 2016-2025 [Clément Billiot][author-github] and [contributors][contrib-graf]. Released under the [MIT license][license-url].
+
+[npmjs-url]: https://www.npmjs.com/package/week-identifier
+[npmjs-img]: https://img.shields.io/npm/v/week-identifier.svg?style=flat
 [license-url]: https://github.com/meltenc/week-identifier/blob/master/LICENSE
 [license-img]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
-
 [build-url]: https://github.com/meltenc/week-identifier/actions/workflows/ci.yml
 [build-img]: https://img.shields.io/github/actions/workflow/status/meltenc/week-identifier/ci.yml?branch=master&style=flat
-
 [codecov-url]: https://codecov.io/gh/meltenc/week-identifier
 [codecov-img]: https://img.shields.io/codecov/c/github/meltenc/week-identifier?style=flat
-
-[downloads-url]: https://npmjs.org/package/week-identifier
+[downloads-url]: https://www.npmjs.com/package/week-identifier
 [downloads-img]: https://img.shields.io/npm/dm/week-identifier.svg?style=flat
-
 [author-github]: https://github.com/meltenc
-
 [contrib-graf]: https://github.com/meltenc/week-identifier/graphs/contributors
-
-***
+[test-url]: https://github.com/meltenc/week-identifier/blob/master/test.js
+[test-cli-url]: https://github.com/meltenc/week-identifier/blob/master/test-cli.js
