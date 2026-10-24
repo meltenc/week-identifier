@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Bug Fixes
 - **DST**: `weekIdentifier()` returned the previous week for the first hour(s) of Monday during daylight saving time, and `dateFromWeek()` could return Monday 01:00 (or Sunday 23:00) instead of Monday 00:00. Weeks are now computed from the local calendar day.
-- **Note**: fractional week identifiers passed to `dateFromWeek()` now resolve to a whole day (Monday 00:00 + whole days).
+- **Fractional ids**: `dateFromWeek()` (and `--from`) now floor fractional week identifiers, so the result is always a Monday (`2.5` → week 2). Previously it returned a Thursday.
 
 ### 🔧 CI/CD
 - Test on Node.js 22, 24 and 26 (18 and 20 are end-of-life)
@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Dependabot (npm + GitHub Actions) and a tag-triggered npm release workflow with trusted publishing
 
 ### 📚 Documentation
+- Add `SECURITY.md` (private vulnerability reporting); rewrite `AGENTS.md` to match the current tooling and release process
 - README rewrite: title, Node.js requirement, local-time/DST behavior, note on UTC parsing of date-only ISO strings, ESM import, development section; removed misleading `npm test` install step and fixed broken author link
 
 ### 📦 Package

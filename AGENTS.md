@@ -1,137 +1,47 @@
 # AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for coding agents (Claude Code, etc.) working in this repository.
 
-## Project Overview
+## Project
 
-This is a modern Node.js utility library that provides unique and sequential week identifiers for JavaScript Date objects or date strings. Week #1 starts on January 5, 1970 (Monday), and the system calculates sequential week numbers from that point.
+Zero-dependency Node.js library + CLI that returns a unique, sequential week number for a date. Week #1 is the week of Monday, January 5, 1970. Published on npm as `week-identifier` (CommonJS, Node.js >= 22).
 
-**Current Version:** 2.0.2 (Major modernization from 2016 to 2025 standards)
+- `index.js` – library:
+  - `weekIdentifier(date?)` → week number. Accepts a date string, a `Date`, or nothing (now). Throws on invalid input.
+  - `dateFromWeek(weekId)` → `Date` of the Monday 00:00 (local time) starting that week. Fractional ids are floored, ids <= 0 return the epoch Monday. Throws on non-numeric input.
+- `cli.js` – `week-identifier [date]`, `--from <id>`, `--help`/`-h`, `--version`/`-v`. Errors go to stderr with exit code 1.
+- `test.js` (library, incl. multi-timezone/DST tests) and `test-cli.js` (CLI, spawns `cli.js`).
 
-## Core Architecture
+## Key behavior
 
-- `index.js`: Main ES6+ module with two exported functions:
-  - `weekIdentifier(date)`: Converts date to sequential week number (throws errors for invalid input)
-  - `dateFromWeek(weekIdentifier)`: Converts week number back to Monday date  
-- `cli.js`: Enhanced command-line interface with argument parsing and error handling
-- `test.js`: Core library tests (12 tests, incl. multi-timezone/DST)
-- `test-cli.js`: Comprehensive CLI test suite (12 tests covering all CLI features)
+- Weeks are counted on the **local calendar day**: the local Y/M/D is converted with `Date.UTC` before dividing, so DST shifts never move a week boundary. Don't reintroduce millisecond arithmetic on local timestamps.
+- `dateFromWeek` uses `new Date(1970, 0, 5 + days)` (local date arithmetic) for the same reason.
+- DST tests set `process.env.TZ` at runtime and loop over several zones; new date logic must pass them.
+- Date-only ISO strings (`'2026-07-06'`) are parsed as UTC by JavaScript itself – documented in the README, not a bug to "fix" in the library.
 
-## Modern Development Stack (2025)
-
-### Testing & Quality
-- **Test Framework:** Mocha v11.7.1 + Chai assertions
-- **Coverage:** NYC (100% coverage achieved - 24 tests total)
-- **Linting:** ESLint v9 with modern flat configuration
-- **Formatting:** Prettier with consistent code style
-
-### CI/CD Pipeline  
-- **GitHub Actions:** Multi-Node.js testing (22, 24, 26), release on `v*` tag via npm trusted publishing
-- **Coverage Reporting:** Codecov integration
-- **Security:** Zero npm audit vulnerabilities
-- **Quality Gates:** All tests must pass, 100% coverage maintained
-
-## Common Commands
+## Commands
 
 ```bash
-# Testing
-npm test                    # Run all tests with coverage (24 tests)
-npm run test:coverage      # Generate HTML coverage report
-
-# Code Quality  
-npm run lint               # Run ESLint
-npm run lint:fix          # Auto-fix ESLint issues
-npm run format            # Format code with Prettier
-npm run format:check      # Check Prettier formatting
-
-# Development
-npm ci                     # Clean install dependencies
-npm audit                  # Check for vulnerabilities (should be 0)
+npm ci
+npm test              # mocha + nyc (100% coverage expected)
+npm run lint          # ESLint 10, flat config (eslint.config.js)
+npm run format:check  # Prettier
 ```
 
-## Testing Architecture
+## Conventions
 
-### Core Library Tests (`test.js` - 12 tests)
-- Date string validation and parsing
-- Date object handling  
-- Error cases for invalid inputs
-- Current date functionality
-- Week-to-date conversion
+- ES2020+ CommonJS, `'use strict'`, descriptive thrown errors (never return `NaN`), JSDoc on public functions.
+- Keep zero runtime dependencies. Published files are restricted by `files` in `package.json` (`index.js`, `cli.js` + README/LICENSE).
+- Update `CHANGELOG.md` (Keep a Changelog, `[Unreleased]` section) with every user-visible change.
 
-### CLI Tests (`test-cli.js` - 12 tests)  
-- Command-line argument parsing
-- Help and version flags
-- Date conversion functionality
-- `--from` flag for week-to-date conversion  
-- Error handling and user feedback
-- Edge cases and validation
+## CI and workflow
 
-## Key Implementation Details
+- `master` is protected: changes go through a PR; checks `test (22.x)`, `test (24.x)`, `test (26.x)` must pass.
+- `.github/workflows/ci.yml`: lint, format, `npm audit --omit=dev`, tests with coverage on Node 22/24/26; Codecov upload (OIDC) from Node 24. Actions are pinned by SHA (Dependabot keeps them current).
+- `.github/dependabot.yml`: monthly grouped updates for npm and GitHub Actions.
 
-### Core Algorithm
-- **Epoch Start:** January 5, 1970 (Monday) = Week 1
-- **Week Calculation:** Uses optimized constants for performance
-- **Error Handling:** Strict validation with descriptive error messages
-- **Input Support:** Date objects, date strings, or current date (default)
+## Release
 
-### Performance Optimizations
-- Weeks computed from the local calendar day via `Date.UTC` (DST-safe): `EPOCH_START_UTC`, `MILLISECONDS_PER_DAY`
-- Zero runtime dependencies for minimal overhead
-- Efficient date parsing and validation
-
-### CLI Features  
-- Basic usage: `week-identifier [date]`
-- Reverse conversion: `--from <weekId>` 
-- Help system: `--help`, `-h`
-- Version info: `--version`, `-v`
-- Error handling with exit codes
-
-## Security Profile
-
-- **Security Rating:** Excellent (5/5 stars)
-- **Runtime Dependencies:** Zero (minimal attack surface)
-- **Vulnerabilities:** None in runtime deps (`npm audit --omit=dev` gated in CI)
-- **Input Validation:** Comprehensive with proper error handling
-- **Code Practices:** Strict mode, ESLint enforced, no eval/injection vectors
-
-## Development Guidelines
-
-### Code Style
-- **ES6+ Features:** const/let, arrow functions, template literals
-- **Error Handling:** Throw descriptive errors instead of returning NaN
-- **Testing:** Maintain 100% coverage, test error paths
-- **Documentation:** JSDoc annotations for all functions
-
-### Release Process
-- Version bumping follows semantic versioning
-- CHANGELOG.md updated for each release
-- Git tags for all releases (`v2.0.2` format)
-- GitHub Actions validates all changes
-- Security audit before each release
-
-## Project Structure
-
-```
-week-identifier/
-├── index.js              # Core library (ES6+)
-├── cli.js                # CLI interface
-├── test.js               # Core tests
-├── test-cli.js          # CLI tests  
-├── package.json          # Dependencies & scripts
-├── eslint.config.js     # ESLint v9 configuration
-├── .prettierrc.json     # Prettier formatting
-├── .github/workflows/   # CI/CD pipeline
-├── CHANGELOG.md         # Release history
-├── README.md            # User documentation
-└── LICENSE              # MIT License
-```
-
-## Modernization History
-
-This project was completely modernized from 2016 to 2025 standards:
-- **v1.0.2 (2016):** Legacy ES5 codebase  
-- **v2.0.0 (2025):** Complete ES6+ rewrite with breaking changes
-- **v2.0.1 (2025):** CI/CD fixes and stability improvements  
-- **v2.0.2 (2025):** Package cleanup and security updates
-
-The modernization included dependency updates, modern tooling, comprehensive testing, GitHub Actions CI/CD, and security hardening while maintaining API compatibility where possible.
+1. Move `[Unreleased]` in `CHANGELOG.md` to the new version with today's date.
+2. `npm version patch|minor|major` (bumps `package.json`, commits, tags `vX.Y.Z`).
+3. `git push --follow-tags` → `.github/workflows/release.yml` checks the tag matches `package.json`, runs tests and publishes to npm with trusted publishing (OIDC, provenance; no npm token). The npm trusted publisher is bound to `release.yml` and the `npm` environment.
