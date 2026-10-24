@@ -73,6 +73,45 @@ describe('week-identifier:', () => {
     assert.strictEqual(typeof weekIdentifier(), 'number');
   });
 
+  describe('across timezones and DST', () => {
+    const originalTZ = process.env.TZ;
+    after(() => {
+      if (originalTZ === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTZ;
+      }
+    });
+
+    [
+      'UTC',
+      'Europe/Paris',
+      'America/New_York',
+      'Australia/Sydney',
+      'Asia/Kolkata',
+    ].forEach((tz) => {
+      it(`should switch week at local Monday midnight in ${tz}`, () => {
+        process.env.TZ = tz;
+        // Summer and winter (northern hemisphere) around a Monday boundary
+        assert.strictEqual(weekIdentifier('July 5, 2026 23:59:59'), 2948);
+        assert.strictEqual(weekIdentifier('July 6, 2026 00:00:00'), 2949);
+        assert.strictEqual(weekIdentifier('January 4, 2026 23:59:59'), 2922);
+        assert.strictEqual(weekIdentifier('January 5, 2026 00:00:00'), 2923);
+        assert.strictEqual(weekIdentifier('January 4, 1970 23:59:59'), 0);
+        assert.strictEqual(weekIdentifier('January 5, 1970 00:00:00'), 1);
+
+        assert.equalTime(
+          weekIdentifier.dateFromWeek(2949),
+          new Date('July 6, 2026 00:00:00')
+        );
+        assert.equalTime(
+          weekIdentifier.dateFromWeek(2923),
+          new Date('January 5, 2026 00:00:00')
+        );
+      });
+    });
+  });
+
   it('should get date from week identifier', () => {
     assert.throws(
       () => weekIdentifier.dateFromWeek(''),

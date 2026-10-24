@@ -14,19 +14,19 @@ This is a modern Node.js utility library that provides unique and sequential wee
   - `weekIdentifier(date)`: Converts date to sequential week number (throws errors for invalid input)
   - `dateFromWeek(weekIdentifier)`: Converts week number back to Monday date  
 - `cli.js`: Enhanced command-line interface with argument parsing and error handling
-- `test.js`: Core library tests (7 tests covering all functionality)
+- `test.js`: Core library tests (12 tests, incl. multi-timezone/DST)
 - `test-cli.js`: Comprehensive CLI test suite (12 tests covering all CLI features)
 
 ## Modern Development Stack (2025)
 
 ### Testing & Quality
 - **Test Framework:** Mocha v11.7.1 + Chai assertions
-- **Coverage:** NYC (100% coverage achieved - 19 tests total)
+- **Coverage:** NYC (100% coverage achieved - 24 tests total)
 - **Linting:** ESLint v9 with modern flat configuration
 - **Formatting:** Prettier with consistent code style
 
 ### CI/CD Pipeline  
-- **GitHub Actions:** Multi-Node.js testing (18, 20, 22)
+- **GitHub Actions:** Multi-Node.js testing (22, 24, 26), release on `v*` tag via npm trusted publishing
 - **Coverage Reporting:** Codecov integration
 - **Security:** Zero npm audit vulnerabilities
 - **Quality Gates:** All tests must pass, 100% coverage maintained
@@ -35,7 +35,7 @@ This is a modern Node.js utility library that provides unique and sequential wee
 
 ```bash
 # Testing
-npm test                    # Run all tests with coverage (19 tests)
+npm test                    # Run all tests with coverage (24 tests)
 npm run test:coverage      # Generate HTML coverage report
 
 # Code Quality  
@@ -51,7 +51,7 @@ npm audit                  # Check for vulnerabilities (should be 0)
 
 ## Testing Architecture
 
-### Core Library Tests (`test.js` - 7 tests)
+### Core Library Tests (`test.js` - 12 tests)
 - Date string validation and parsing
 - Date object handling  
 - Error cases for invalid inputs
@@ -75,7 +75,7 @@ npm audit                  # Check for vulnerabilities (should be 0)
 - **Input Support:** Date objects, date strings, or current date (default)
 
 ### Performance Optimizations
-- Cached constants: `EPOCH_START`, `EPOCH_START_TIMESTAMP`, `MILLISECONDS_PER_WEEK`
+- Weeks computed from the local calendar day via `Date.UTC` (DST-safe): `EPOCH_START_UTC`, `MILLISECONDS_PER_DAY`
 - Zero runtime dependencies for minimal overhead
 - Efficient date parsing and validation
 
@@ -90,7 +90,7 @@ npm audit                  # Check for vulnerabilities (should be 0)
 
 - **Security Rating:** Excellent (5/5 stars)
 - **Runtime Dependencies:** Zero (minimal attack surface)
-- **Vulnerabilities:** None (npm audit clean)
+- **Vulnerabilities:** None in runtime deps (`npm audit --omit=dev` gated in CI)
 - **Input Validation:** Comprehensive with proper error handling
 - **Code Practices:** Strict mode, ESLint enforced, no eval/injection vectors
 

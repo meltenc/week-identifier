@@ -7,10 +7,9 @@
 
 'use strict';
 
-// Constants for better performance
-const EPOCH_START = new Date('January 5, 1970 00:00:00');
-const EPOCH_START_TIMESTAMP = EPOCH_START.getTime() - 1;
-const MILLISECONDS_PER_WEEK = 24 * 3600 * 1000 * 7;
+// Weeks are counted on local calendar days, via UTC to stay immune to DST shifts
+const EPOCH_START_UTC = Date.UTC(1970, 0, 5);
+const MILLISECONDS_PER_DAY = 24 * 3600 * 1000;
 
 module.exports = weekIdentifier;
 module.exports.weekIdentifier = weekIdentifier;
@@ -66,12 +65,14 @@ function weekIdentifier(date) {
     instance = new Date();
   }
 
-  // Number of weeks from our starting date
-  const weekNumberDiff = Math.ceil(
-    (instance.getTime() - EPOCH_START_TIMESTAMP) / MILLISECONDS_PER_WEEK
+  const localDayUTC = Date.UTC(
+    instance.getFullYear(),
+    instance.getMonth(),
+    instance.getDate()
   );
+  const daysSinceEpoch = (localDayUTC - EPOCH_START_UTC) / MILLISECONDS_PER_DAY;
 
-  return weekNumberDiff;
+  return Math.floor(daysSinceEpoch / 7) + 1;
 }
 
 /**
@@ -110,13 +111,6 @@ function dateFromWeek(weekIdentifier) {
     throw new Error(`Invalid week identifier: "${weekIdentifier}"`);
   }
 
-  // Starting date point for our sequence
-  let mondayOfWeek = new Date(EPOCH_START.getTime());
-
-  if (weekNum > 0) {
-    const additionalMilliseconds = (weekNum - 1) * MILLISECONDS_PER_WEEK;
-    mondayOfWeek = new Date(EPOCH_START.getTime() + additionalMilliseconds);
-  }
-
-  return mondayOfWeek;
+  // Local date arithmetic keeps the result at Monday 00:00 even across DST
+  return new Date(1970, 0, 5 + (weekNum > 0 ? (weekNum - 1) * 7 : 0));
 }
