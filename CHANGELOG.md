@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### 🐛 Bug Fixes
+- **DST**: `weekIdentifier()` returned the previous week for the first hour(s) of Monday during daylight saving time, and `dateFromWeek()` could return Monday 01:00 (or Sunday 23:00) instead of Monday 00:00. Weeks are now computed from the local calendar day.
+- **Note**: fractional week identifiers passed to `dateFromWeek()` now resolve to a whole day (Monday 00:00 + whole days).
+
+### 🔧 CI/CD
+- Test on Node.js 22, 24 and 26 (18 and 20 are end-of-life)
+- Pin GitHub Actions by SHA, least-privilege `permissions`, cancel superseded runs
+- Codecov upload once per run via OIDC (`files:` input, no token secret)
+- Add `npm audit` gate on runtime dependencies, drop redundant `test-cli` job
+- Add Dependabot (npm + GitHub Actions) and a tag-triggered npm release workflow with trusted publishing
+
 ## [2.0.3] - 2025-01-21
 
 ### 📦 Package Optimization
