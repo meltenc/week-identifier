@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `.npmignore` with a `files` allow-list (same published contents)
 - `license` is now the SPDX string `"MIT"`; `repository` uses a `git+https` URL; source headers point to `meltenc/week-identifier`
 
-## [2.0.3] - 2025-01-21
+## [2.0.3] - 2025-07-21
 
 ### 📦 Package Optimization
 - **npm Package**: Add .npmignore to optimize package size (-54% reduction)
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Clean Distribution**: Only production-ready files in npm package
 - **Better Documentation**: Enhanced developer experience for contributors
 
-## [2.0.2] - 2025-01-21
+## [2.0.2] - 2025-07-21
 
 ### 🧹 Cleanup & Maintenance
 - **Dependencies**: Remove obsolete packages (coveralls, istanbul, publish-please)
@@ -62,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Maintenance**: Streamlined development workflow and configuration files
 - **Standards**: Updated to latest Node.js and npm security standards
 
-## [2.0.1] - 2025-01-21
+## [2.0.1] - 2025-07-21
 
 ### 🐛 Fixed
 - **GitHub Actions**: Fix Codecov integration with proper lcov.info file generation
@@ -75,7 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove obsolete `.travis.yml` and `.coveralls.yml` CI configuration  
 - Clean up generated coverage directories from version control
 
-## [2.0.0] - 2025-01-21
+## [2.0.0] - 2025-07-21
 
 ### 💥 Breaking Changes
 - **Error Handling**: Functions now throw errors for invalid inputs instead of returning NaN
