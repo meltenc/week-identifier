@@ -59,12 +59,16 @@ const parseArgs = (args) => {
       } else {
         throw new Error('--from requires a week identifier');
       }
-    } else if (!arg.startsWith('--')) {
+    } else if (!arg.startsWith('-')) {
       // Treat as date input
       options.date = options.date ? `${options.date} ${arg}` : arg;
     } else {
       throw new Error(`Unknown option: ${arg}`);
     }
+  }
+
+  if (options.from !== null && options.date !== null) {
+    throw new Error('--from cannot be combined with a date');
   }
 
   return options;

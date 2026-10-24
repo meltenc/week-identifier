@@ -7,8 +7,8 @@ Guidance for coding agents (Claude Code, etc.) working in this repository.
 Zero-dependency Node.js library + CLI that returns a unique, sequential week number for a date. Week #1 is the week of Monday, January 5, 1970. Published on npm as `week-identifier` (CommonJS, Node.js >= 22).
 
 - `index.js` – library:
-  - `weekIdentifier(date?)` → week number. Accepts a date string, a `Date`, or nothing (now). Throws on invalid input.
-  - `dateFromWeek(weekId)` → `Date` of the Monday 00:00 (local time) starting that week. Fractional ids are floored, ids <= 0 return the epoch Monday. Throws on non-numeric input.
+  - `weekIdentifier(date?)` → week number. Accepts a date string, a `Date` (any realm), a ms timestamp, or nothing (now). Throws on invalid string/Date/timestamp; other types (`null`, objects…) fall back to now – changing that is a breaking change (v3).
+  - `dateFromWeek(weekId)` → `Date` of the Monday 00:00 (local time) starting that week. Accepts numbers or numeric strings (`Number()` semantics). Fractional ids are floored, ids <= 0 return the epoch Monday. Throws `Error` on non-numeric input, `RangeError` beyond the `Date` range.
 - `cli.js` – `week-identifier [date]`, `--from <id>`, `--help`/`-h`, `--version`/`-v`. Errors go to stderr with exit code 1.
 - `test.js` (library, incl. multi-timezone/DST tests) and `test-cli.js` (CLI, spawns `cli.js`).
 

@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **DST**: `weekIdentifier()` returned the previous week for the first hour(s) of Monday during daylight saving time, and `dateFromWeek()` could return Monday 01:00 (or Sunday 23:00) instead of Monday 00:00. Weeks are now computed from the local calendar day.
 - **Fractional ids**: `dateFromWeek()` (and `--from`) now floor fractional week identifiers, so the result is always a Monday (`2.5` → week 2). Previously it returned a Thursday.
 
+### 🛡️ Input validation
+- `weekIdentifier()` now accepts millisecond timestamps (`weekIdentifier(Date.now())`); previously any number silently returned the current week. Invalid timestamps (`NaN`, out of range) throw.
+- `weekIdentifier()` accepts `Date` objects from other realms (`vm`, iframes); previously they silently returned the current week.
+- `dateFromWeek()` throws a `RangeError` instead of returning an Invalid Date for huge ids (`Infinity`, `1e20`); the CLI no longer prints `NaN-NaN-NaN` with exit code 0.
+- `dateFromWeek()` rejects strings with trailing garbage (`'12abc'`) and non-string/non-number values (e.g. arrays) instead of parsing them leniently.
+- CLI: single-dash arguments (`-x`) are reported as unknown options; `--from` combined with a date is an error instead of silently ignoring the date.
+
 ### 🔧 CI/CD
 - Test on Node.js 22, 24 and 26 (18 and 20 are end-of-life)
 - Pin GitHub Actions by SHA, least-privilege `permissions`, cancel superseded runs
