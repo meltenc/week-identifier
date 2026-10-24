@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] - 2026-10-24
+
 ### 🐛 Bug Fixes
 - **DST**: `weekIdentifier()` returned the previous week for the first hour(s) of Monday during daylight saving time, and `dateFromWeek()` could return Monday 01:00 (or Sunday 23:00) instead of Monday 00:00. Weeks are now computed from the local calendar day.
 - **Fractional ids**: `dateFromWeek()` (and `--from`) now floor fractional week identifiers, so the result is always a Monday (`2.5` → week 2). Previously it returned a Thursday.
