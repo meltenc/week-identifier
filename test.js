@@ -41,7 +41,7 @@ describe('week-identifier:', () => {
       'Invalid date string: "invalid date string"'
     );
     assert.throws(
-      () => weekIdentifier('2025-13-45'), // Invalid date
+      () => weekIdentifier('2026-13-45'), // Invalid date
       Error,
       'Invalid date string'
     );
