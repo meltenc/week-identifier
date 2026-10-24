@@ -27,7 +27,7 @@ const weekIdentifier = require('week-identifier');
 
 Returns the week identifier for a date.
 
-- **date** `{string|Date}` – any date string `new Date()` understands, or a `Date`. Optional; defaults to now.
+- **date** `{string|Date|number}` – any date string `new Date()` understands, a `Date`, or a millisecond timestamp. Optional; defaults to now.
 - **returns** `{number}` – sequential week identifier (1 = week of January 5, 1970)
 - **throws** `{Error}` – when the string or `Date` is invalid
 
@@ -38,6 +38,7 @@ weekIdentifier('January 12, 1970');          //=> 2
 weekIdentifier('August 12, 2016');           //=> 2432
 weekIdentifier('08/12/2016');                //=> 2432
 weekIdentifier(new Date('August 12, 2016')); //=> 2432
+weekIdentifier(Date.now());                  //=> current week
 
 weekIdentifier('invalid date');
 //=> throws Error: Invalid date string: "invalid date"
@@ -52,7 +53,7 @@ Returns the Monday (00:00 local time) that starts the given week.
 
 - **weekId** `{number|string}` – week identifier
 - **returns** `{Date}` – Monday of that week; identifiers ≤ 0 return January 5, 1970
-- **throws** `{Error}` – when `weekId` is not a number
+- **throws** `{Error}` – when `weekId` is not a number (`'12abc'` is rejected); `{RangeError}` when the date would exceed the JavaScript `Date` range
 
 ```js
 weekIdentifier.dateFromWeek(2433); //=> Mon Aug 15 2016 00:00:00

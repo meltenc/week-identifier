@@ -40,9 +40,9 @@ module.exports.dateFromWeek = dateFromWeek;
  * //=> 2432
  * ```
  *
- * @param {string|Date} [date] - Date string (any valid format) or Date object. If omitted, uses current date.
+ * @param {string|Date|number} [date] - Date string (any valid format), Date object or millisecond timestamp. If omitted, uses current date.
  * @returns {number} The sequential week identifier (1-based)
- * @throws {Error} When provided date string or Date object is invalid
+ * @throws {Error} When provided date string, Date object or timestamp is invalid
  * @since 1.0.0
  * @public
  */
@@ -55,12 +55,17 @@ function weekIdentifier(date) {
     if (isNaN(instance.getTime())) {
       throw new Error(`Invalid date string: "${date}"`);
     }
-  } else if (date instanceof Date) {
-    // Check if the Date object is valid
-    if (isNaN(date.getTime())) {
+  } else if (typeof date === 'number') {
+    instance = new Date(date);
+    if (isNaN(instance.getTime())) {
+      throw new Error(`Invalid timestamp: ${date}`);
+    }
+  } else if (Object.prototype.toString.call(date) === '[object Date]') {
+    // toString check (not instanceof) also accepts Dates from other realms (vm, iframes)
+    instance = new Date(date);
+    if (isNaN(instance.getTime())) {
       throw new Error('Invalid Date object provided');
     }
-    instance = date;
   } else {
     instance = new Date();
   }
@@ -101,17 +106,30 @@ function weekIdentifier(date) {
  * @param {number|string} weekIdentifier - The week identifier to convert
  * @returns {Date} Monday date of the specified week
  * @throws {Error} When weekIdentifier is not a valid number
+ * @throws {RangeError} When the resulting date is beyond the JavaScript Date range
  * @since 1.0.0
  * @public
  */
 function dateFromWeek(weekIdentifier) {
-  // Fractional ids are floored so the result is always a Monday
-  const weekNum = Math.floor(parseFloat(weekIdentifier));
+  let weekNum = NaN;
+  if (typeof weekIdentifier === 'number') {
+    weekNum = weekIdentifier;
+  } else if (typeof weekIdentifier === 'string' && weekIdentifier.trim()) {
+    // Number() rejects trailing garbage like "12abc", unlike parseFloat()
+    weekNum = Number(weekIdentifier);
+  }
 
   if (isNaN(weekNum)) {
     throw new Error(`Invalid week identifier: "${weekIdentifier}"`);
   }
 
+  // Fractional ids are floored so the result is always a Monday
+  weekNum = Math.floor(weekNum);
+
   // Local date arithmetic keeps the result at Monday 00:00 even across DST
-  return new Date(1970, 0, 5 + (weekNum > 0 ? (weekNum - 1) * 7 : 0));
+  const monday = new Date(1970, 0, 5 + (weekNum > 0 ? (weekNum - 1) * 7 : 0));
+  if (isNaN(monday.getTime())) {
+    throw new RangeError(`Week identifier out of range: "${weekIdentifier}"`);
+  }
+  return monday;
 }

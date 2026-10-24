@@ -107,4 +107,25 @@ describe('week-identifier CLI:', () => {
     assert.include(result.stderr, 'Error:');
     assert.include(result.stderr, 'Unknown option: --unknown');
   });
+
+  it('should treat single-dash arguments as unknown options', () => {
+    const result = runCLI('-x');
+    assert.strictEqual(result.exitCode, 1);
+    assert.include(result.stderr, 'Unknown option: -x');
+  });
+
+  it('should reject --from combined with a date', () => {
+    const result = runCLI('--from 1 "August 12, 2016"');
+    assert.strictEqual(result.exitCode, 1);
+    assert.include(result.stderr, '--from cannot be combined with a date');
+  });
+
+  it('should fail instead of printing NaN for out-of-range week identifiers', () => {
+    ['Infinity', '1e20'].forEach((id) => {
+      const result = runCLI(`--from ${id}`);
+      assert.strictEqual(result.exitCode, 1);
+      assert.strictEqual(result.stdout, '');
+      assert.include(result.stderr, 'Week identifier out of range');
+    });
+  });
 });

@@ -55,6 +55,29 @@ describe('week-identifier:', () => {
       'Invalid Date object provided'
     );
   });
+  it('should accept millisecond timestamps', () => {
+    const ms = new Date('August 12, 2016').getTime();
+    assert.strictEqual(weekIdentifier(ms), 2432);
+    assert.strictEqual(weekIdentifier(new Date(1970, 0, 5).getTime()), 1);
+    assert.throws(() => weekIdentifier(NaN), Error, 'Invalid timestamp: NaN');
+    assert.throws(() => weekIdentifier(1e20), Error, 'Invalid timestamp');
+  });
+
+  it('should accept Date objects from another realm and Date subclasses', () => {
+    const foreign = require('vm').runInNewContext('new Date(1970, 0, 5)');
+    assert.isFalse(foreign instanceof Date);
+    assert.strictEqual(weekIdentifier(foreign), 1);
+    assert.strictEqual(
+      weekIdentifier(new (class extends Date {})(1970, 0, 12)),
+      2
+    );
+    assert.throws(
+      () => weekIdentifier(require('vm').runInNewContext('new Date(NaN)')),
+      Error,
+      'Invalid Date object provided'
+    );
+  });
+
   it('should get current week identifier when empty string format', () => {
     assert.strictEqual(typeof weekIdentifier(''), 'number');
   });
@@ -150,6 +173,28 @@ describe('week-identifier:', () => {
     assert.equalTime(
       weekIdentifier.dateFromWeek(2.5),
       new Date('January 12, 1970 00:00:00')
+    );
+    assert.equalTime(
+      weekIdentifier.dateFromWeek(' 2 '),
+      new Date('January 12, 1970 00:00:00')
+    );
+    ['12abc', '   ', null, true, [3], {}].forEach((id) => {
+      assert.throws(
+        () => weekIdentifier.dateFromWeek(id),
+        Error,
+        'Invalid week identifier'
+      );
+    });
+    [Infinity, '1e20', 1e9].forEach((id) => {
+      assert.throws(
+        () => weekIdentifier.dateFromWeek(id),
+        RangeError,
+        'Week identifier out of range'
+      );
+    });
+    assert.equalTime(
+      weekIdentifier.dateFromWeek(-Infinity),
+      new Date('January 05, 1970 00:00:00')
     );
     assert.equalTime(
       weekIdentifier.dateFromWeek('2403.9'),
