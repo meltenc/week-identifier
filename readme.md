@@ -160,7 +160,7 @@ Released under the [`MIT`][license-url] license.
 [npmjs-url]: http://npm.im/week-identifier
 [npmjs-img]: https://img.shields.io/npm/v/week-identifier.svg?style=flat&label=week-identifier
 
-[license-url]: https://github.com/meltenc/week-identifier/blob/master/license.md
+[license-url]: https://github.com/meltenc/week-identifier/blob/master/LICENSE
 [license-img]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 
 [build-url]: https://github.com/meltenc/week-identifier/actions/workflows/ci.yml

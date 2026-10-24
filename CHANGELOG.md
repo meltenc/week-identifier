@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `npm audit` gate on runtime dependencies, drop redundant `test-cli` job
 - Add Dependabot (npm + GitHub Actions) and a tag-triggered npm release workflow with trusted publishing
 
+### 📦 Package
+- **Node.js**: declare `engines: { node: ">=22" }` (versions tested in CI)
+- Replace `.npmignore` with a `files` allow-list (same published contents)
+- `license` is now the SPDX string `"MIT"`; `repository` uses a `git+https` URL; source headers point to `meltenc/week-identifier`
+
 ## [2.0.3] - 2025-01-21
 
 ### 📦 Package Optimization

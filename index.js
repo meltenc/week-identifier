@@ -1,5 +1,5 @@
 /**
- * week-identifier <https://github.com/throll/week-identifier>
+ * week-identifier <https://github.com/meltenc/week-identifier>
  *
  * Copyright (c) 2016 Clément Billiot, contributors.
  * Released under the MIT license.
