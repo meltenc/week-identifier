@@ -1,7 +1,7 @@
 /**
  * week-identifier <https://github.com/meltenc/week-identifier>
  *
- * Copyright (c) 2016 Clément Billiot, contributors.
+ * Copyright (c) 2016-2025 Clément Billiot, contributors.
  * Released under the MIT license.
  */
 
@@ -105,7 +105,8 @@ function weekIdentifier(date) {
  * @public
  */
 function dateFromWeek(weekIdentifier) {
-  const weekNum = parseFloat(weekIdentifier);
+  // Fractional ids are floored so the result is always a Monday
+  const weekNum = Math.floor(parseFloat(weekIdentifier));
 
   if (isNaN(weekNum)) {
     throw new Error(`Invalid week identifier: "${weekIdentifier}"`);

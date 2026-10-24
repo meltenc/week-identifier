@@ -3,7 +3,7 @@
 /**
  * week-identifier <https://github.com/meltenc/week-identifier>
  *
- * Copyright (c) 2016-2017 Clément Billiot, contributors.
+ * Copyright (c) 2016-2025 Clément Billiot, contributors.
  * Released under the MIT license.
  */
 

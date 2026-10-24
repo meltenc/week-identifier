@@ -1,56 +1,18 @@
-# Always-ignore dirs #
-# ####################
-_gh_pages
-node_modules
-bower_components
-components
-vendor
-build
-dest
-dist
-src
-lib-cov
-coverage
-nbproject
-cache
-temp
-tmp
+node_modules/
 
-# Packages #
-# ##########
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
-
-# OS, Logs and databases #
-# #########################
-*.pid
-*.dat
-*.log
-*.sql
-*.sqlite
-*~
-~*
-
-# Another files #
-# ###############
-Icon?
-.DS_Store*
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-npm-debug.log
-.directory
-._*
-.idea
-
-# Test coverage and tools #
-# #########################
+# Test coverage
 .nyc_output/
 coverage/
 *.lcov
+
+# Packaging
+*.tgz
+
+# Logs
+*.log
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

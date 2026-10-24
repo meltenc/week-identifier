@@ -1,7 +1,7 @@
 /**
  * week-identifier <https://github.com/meltenc/week-identifier>
  *
- * Copyright (c) 2016 Clément Billiot, contributors.
+ * Copyright (c) 2016-2025 Clément Billiot, contributors.
  * Released under the MIT license.
  */
 
@@ -146,6 +146,14 @@ describe('week-identifier:', () => {
     assert.equalDate(
       weekIdentifier.dateFromWeek('2404'),
       new Date('January 25, 2016 00:00:00')
+    );
+    assert.equalTime(
+      weekIdentifier.dateFromWeek(2.5),
+      new Date('January 12, 1970 00:00:00')
+    );
+    assert.equalTime(
+      weekIdentifier.dateFromWeek('2403.9'),
+      new Date('January 18, 2016 00:00:00')
     );
   });
 });
