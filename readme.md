@@ -97,7 +97,7 @@ More examples in [test.js][test-url] and [test-cli.js][test-cli-url].
 
 ## License
 
-Copyright (c) 2016-2025 [Clément Billiot][author-github] and [contributors][contrib-graf]. Released under the [MIT license][license-url].
+Copyright (c) 2016-2026 [Clément Billiot][author-github] and [contributors][contrib-graf]. Released under the [MIT license][license-url].
 
 [npmjs-url]: https://www.npmjs.com/package/week-identifier
 [npmjs-img]: https://img.shields.io/npm/v/week-identifier.svg?style=flat
